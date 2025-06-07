@@ -1,0 +1,153 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20250606220635
+Username: DESKTOP-1234567\user
+RunAs User: DESKTOP-1234567\user
+Configuration Name: 
+Machine: DESKTOP-TBG311U (Microsoft Windows NT 10.0.26100.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+Process ID: 5496
+PSVersion: 5.1.26100.4202
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.4202
+BuildVersion: 10.0.26100.4202
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is C:\Users\~user~\Desktop\IRM-Setup-Log.txt
+--------------------------------------------------
+Execution Policy Change
+The execution policy helps protect you from scripts that you do not trust. Changing the execution policy might expose you to the security risks described in the about_Execution_Policies help topic at https:/go.microsoft.com/fwlink/?LinkID=135170. Do you want to change the execution policy?
+&Yes  Yes to &All  &No  No to A&ll  &Suspend
+A
+--------------------------------------------------
+Checking and installing required modules...
+Importing AIPService...
+Importing Exchange Online Management...
+--------------------------------------------------
+Connecting to services...
+Connecting to Exchange Online...
+----------------------------------------------------------------------------------------
+This V3 EXO PowerShell module contains new REST API backed Exchange Online cmdlets which doesn't require WinRM for Client-Server communication. You can now run these cmdlets after turning off WinRM Basic Auth in your client machine thus making it more secure.
+
+Unlike the EXO* prefixed cmdlets, the cmdlets in this module support full functional parity with the RPS (V1) cmdlets.
+
+V3 cmdlets in the downloaded module are resilient to transient failures, handling retries and throttling errors inherently.
+
+REST backed EOP and SCC cmdlets are also available in the V3 module. Similar to EXO, the cmdlets can be run without WinRM basic auth enabled.
+
+For more information check https://aka.ms/exov3-module
+
+Starting with EXO V3.7, use the LoadCmdletHelp parameter alongside Connect-ExchangeOnline to access the Get-Help cmdlet, as it will not loaded by default.
+----------------------------------------------------------------------------------------
+Connected to Exchange Online.
+Connecting to AIP Service...
+A connection to the Azure Information Protection service was opened.
+Connected to AIP Service.
+--------------------------------------------------
+Retrieving initial IRM configuration...
+Initial IRM Configuration:
+
+
+InternalLicensingEnabled                   : False
+ExternalLicensingEnabled                   : True
+AzureRMSLicensingEnabled                   : False
+TransportDecryptionSetting                 : Optional
+JournalReportDecryptionEnabled             : True
+SimplifiedClientAccessEnabled              : False
+ClientAccessServerEnabled                  : True
+SearchEnabled                              : True
+EDiscoverySuperUserEnabled                 : True
+DecryptAttachmentFromPortal                : False
+DecryptAttachmentForEncryptOnly            : False
+SystemCleanupPeriod                        : 0
+SimplifiedClientAccessEncryptOnlyDisabled  : True
+SimplifiedClientAccessDoNotForwardDisabled : False
+EnablePdfEncryption                        : False
+AutomaticServiceUpdateEnabled              : True
+RMSOnlineKeySharingLocation                :
+RMSOnlineVersion                           :
+ServiceLocation                            :
+PublishingLocation                         :
+LicensingLocation                          : {https://xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx.rms.na.aadrm.com/_wmcs/licensing}
+RejectIfRecipientHasNoRights               : False
+EnablePortalTrackingLogs                   : False
+
+
+
+--------------------------------------------------
+Configuring IRM and AIP settings...
+Azure RMS Licensing enabled.
+License URL set and internal licensing enabled.
+Enabling AIP Service...
+The Azure Information Protection service has been successfully enabled although additional configuration of other services might be required. For more information, see http://go.microsoft.com/fwlink/?LinkId=251909.
+AIP Service enabled.
+Enabling Protect Button...
+Protect button in Outlook on the web enabled.
+Enabling Encryption...
+Encrypt-Only option enabled.
+--------------------------------------------------
+Verifying updated IRM configuration...
+Updated IRM Configuration:
+
+
+InternalLicensingEnabled                   : True
+ExternalLicensingEnabled                   : True
+AzureRMSLicensingEnabled                   : True
+TransportDecryptionSetting                 : Optional
+JournalReportDecryptionEnabled             : True
+SimplifiedClientAccessEnabled              : True
+ClientAccessServerEnabled                  : True
+SearchEnabled                              : True
+EDiscoverySuperUserEnabled                 : True
+DecryptAttachmentFromPortal                : False
+DecryptAttachmentForEncryptOnly            : False
+SystemCleanupPeriod                        : 0
+SimplifiedClientAccessEncryptOnlyDisabled  : False
+SimplifiedClientAccessDoNotForwardDisabled : False
+EnablePdfEncryption                        : False
+AutomaticServiceUpdateEnabled              : True
+RMSOnlineKeySharingLocation                :
+RMSOnlineVersion                           :
+ServiceLocation                            :
+PublishingLocation                         :
+LicensingLocation                          : {https://xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx.rms.na.aadrm.com/_wmcs/licensing}
+RejectIfRecipientHasNoRights               : False
+EnablePortalTrackingLogs                   : False
+
+
+
+--------------------------------------------------
+Testing IRM Configuration...
+IRM Configuration test completed.
+
+
+Results : Acquiring RMS Templates ...
+              - PASS: RMS Templates acquired.  Templates available: Confidential \ All Employees, Highly Confidential
+          \ All Employees, Encrypt, Do Not Forward.
+          Verifying encryption ...
+              - PASS: Encryption verified successfully.
+          Verifying decryption for recipient: REDACTED@REDACTED.com ...
+              - PASS: Decryption verified successfully.
+          Verifying IRM is enabled ...
+              - PASS: IRM verified successfully.
+
+          OVERALL RESULT: PASS
+
+
+
+
+
+--------------------------------------------------
+Return execution policy to restricted
+Execution Policy Change
+The execution policy helps protect you from scripts that you do not trust. Changing the execution policy might expose you to the security risks described in the about_Execution_Policies help topic at https:/go.microsoft.com/fwlink/?LinkID=135170. Do you want to change the execution policy?
+&Yes  Yes to &All  &No  No to A&ll  &Suspend
+A
+--------------------------------------------------
+**********************
+Windows PowerShell transcript end
+End time: 20250606220824
+**********************
