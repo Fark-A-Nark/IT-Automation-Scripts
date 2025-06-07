@@ -89,6 +89,7 @@ E:\Backups\Backups_Scripted\jdoe_2025-06-06
 - If manually backing up the entire user folder, store it in:  
   `E:\Backups\Backups_Manual`
 - A restore script can be created to automate copying data to the new machine.
+- It is intended to some day write a "put back" script for added the backed up data to the new machine. 
 
 
 ---

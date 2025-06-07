@@ -1,0 +1,1 @@
+These are generalized shortcuts intended for manually copying backed up data to the new device.
