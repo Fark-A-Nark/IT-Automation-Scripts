@@ -1,0 +1,1 @@
+﻿get-WindowsOptionalFeature -online | select * | Export-CSV "E:\Features.csv"

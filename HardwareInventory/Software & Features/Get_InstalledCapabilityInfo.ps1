@@ -1,0 +1,1 @@
+﻿Get-WindowsCapability -Online | Export-CSV "E:\Capability.csv"

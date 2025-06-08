@@ -1,0 +1,1 @@
+﻿Get-WmiObject -Class Win32_Product | Export-CSV "E:\Software.csv"
