@@ -1,0 +1,42 @@
+##  This Script is a little more specific and targeted. 
+##  It will not work with out modification, you will need to set the DDL veriable name as well as define the Company Name, titles, and emails.
+
+### --------------------------------------------------------- ###
+## The script uses a Recipient Filter to dynamically include users based on directory attributes.
+
+## A user will be included in the group if any of the following is true:
+##    User is active and:
+##    Works for "Company 01" or "Company 02"
+##    Has one of the following job titles:
+##           Title 001
+##           Title 002
+##           Title 003
+##           Title 004
+##           Title 005
+##    OR  the user's email address is exactly "email@domain.com"
+
+### --------------------------------------------------------- ###
+
+#######   ----- SET VARIABLE HERE -----   #######
+# Set the name of the Dynamic Distribution List (DDL)
+# Replace this with the actual name of your group 
+
+$ddlName = "Name of Distribution Group"
+
+#######   ----- SET VARIABLE HERE -----   #######
+
+
+Set-DynamicDistributionGroup -Identity $ddlName -RecipientFilter {
+    (AccountDisabled -eq $false) -and 
+    (
+        (Company -eq "Company 01" -or Company -eq "Company 02") -and 
+        (
+            (Title -like "Title 001") -or 
+            (Title -like "Title 002") -or 
+            (Title -like "Title 003") -or 
+            (Title -like "Title 004") -or 
+            (Title -like "Title 005") -or 
+        )
+    ) -or 
+    (UserPrincipalName -eq "email@domain.com")
+}
