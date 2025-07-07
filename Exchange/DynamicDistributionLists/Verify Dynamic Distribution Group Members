@@ -1,0 +1,88 @@
+##  This PowerShell script is designed to:
+
+##  Connect to Exchange Online using the Connect-ExchangeOnline cmdlet.
+##  Specify a dynamic distribution List (DDL) by name.
+##  Force a refresh of the DDL membership to ensure it's up to date.
+##  Retrieve the current members of the DDL.
+##  Resolve each member's identity to get readable display names and recipient types (some members may appear as GUIDs).
+##  Display the resolved member list in a formatted table.
+##  Prompt the user to optionally save the results to a CSV file.
+##  If the user agrees, it:
+##       Generates a timestamped filename.
+##       Opens a Save File dialog.
+##       Saves the member list to the selected location.
+
+
+# Connect to Exchange Online (requires appropriate permissions and modules)
+Connect-ExchangeOnline
+
+#######   ----- SET VARIABLE HERE -----   #######
+# Set the name of the Dynamic Distribution List (DDL)
+# Replace this with the actual name of your group 
+$ddlName = "Name of Distribution Group"
+#######   ----- SET VARIABLE HERE -----   #######
+
+# Force a refresh of the DDL membership to ensure it's current
+Set-DynamicDistributionGroup -Identity $ddlName -ForceMembershipRefresh
+
+# Retrieve the members of the dynamic distribution list
+$members = Get-DynamicDistributionGroupMember -Identity $ddlName
+
+# Initialize an empty array to store resolved member information
+$resolvedMembers = @()
+
+# Loop through each member to resolve their display name and recipient type
+foreach ($member in $members) {
+    try {
+        # Attempt to resolve the member using Get-Recipient
+        $resolved = Get-Recipient $member.Identity
+
+        # Add the resolved member to the list with display name and recipient type
+        $resolvedMembers += [PSCustomObject]@{
+            Name           = ($resolved.DisplayName -join ', ')
+            RecipientType  = ($resolved.RecipientType -join ', ')
+        }
+    } catch {
+        # If resolution fails (e.g., due to GUID), fall back to raw identity
+        $resolvedMembers += [PSCustomObject]@{
+            Name           = ($member.Identity -join ', ')
+            RecipientType  = ($member.RecipientType -join ', ')
+        }
+    }
+}
+
+# Display the resolved members in a formatted table
+$resolvedMembers | Format-Table Name, RecipientType -AutoSize
+
+Write-Host "--------------------------------------------------------------------------------"
+
+# Prompt the user to save the results to a CSV file
+$saveChoice = Read-Host "Would you like to save the results to a CSV file? (Y/N)"
+
+if ($saveChoice -eq "Y" -or $saveChoice -eq "y") {
+    # Load Windows Forms assembly to use SaveFileDialog
+    Add-Type -AssemblyName System.Windows.Forms
+
+    # Generate a timestamp for the filename
+    $timestamp = Get-Date -Format "yyyy-MM-dd_HHmm"
+
+    # Sanitize the group name to make it safe for filenames
+    $safeGroupName = ($ddlName -replace '[\\/:*?"<>| ]', '_')
+
+    # Construct a default filename using timestamp and group name
+    $defaultFileName = "${timestamp}_${safeGroupName}_Members.csv"
+
+    # Create and configure the Save File dialog
+    $saveFileDialog = New-Object System.Windows.Forms.SaveFileDialog
+    $saveFileDialog.Filter = "CSV files (*.csv)|*.csv"
+    $saveFileDialog.Title = "Save Results As"
+    $saveFileDialog.FileName = $defaultFileName
+
+    # Show the dialog and export the data if the user clicks OK
+    if ($saveFileDialog.ShowDialog() -eq "OK") {
+        $resolvedMembers | Export-Csv -Path $saveFileDialog.FileName -NoTypeInformation
+        Write-Host "Results saved to $($saveFileDialog.FileName)"
+    } else {
+        Write-Host "Save operation cancelled."
+    }
+}
