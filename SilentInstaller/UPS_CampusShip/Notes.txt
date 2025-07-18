@@ -1,0 +1,16 @@
+Intune Install Command
+powershell.exe -ExecutionPolicy Bypass -File .\00_RUN.ps1
+
+
+
+
+
+Manual PowerShell Testing 
+
+Run PS as Admin
+
+Run
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
+Run (Manually point to run file)
+& "C:\Users\admin\Desktop\Java\00_Run.ps1"
